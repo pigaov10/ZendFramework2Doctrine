@@ -20,4 +20,22 @@ class IndexController extends AbstractActionController
 		$lista = $em->getRepository("Application\Entity\User")->findAll(); 
 		return new ViewModel(array('lista' => $lista));
     }
+
+    public function addAction(){
+    	$request = $this->getRequest();
+    	$result = array();
+    	if($request->isPost())
+    	{
+    		try {
+                $nome = $request->getPost("nome"); 		
+                $user = new \Application\Model\User();
+                $user->setName($nome);
+                $em = $this->getServiceLocator()->get("Doctrine\ORM\EntityManager");
+	            $em->persist($user);
+	            $em->flush();
+    		} catch (Exception $e) {
+    			
+    		}
+    	}
+    }
 }
